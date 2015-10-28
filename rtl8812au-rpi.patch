@@ -1,5 +1,6 @@
 # Author: dtrip <d@nrx.co>
 # Date: 2015.10.28 10:26UTC
+#
 # Description:
 # Patch file for rtl8812au drivers to work
 # with Amped wireless UA230A on raspberry pi
@@ -7,8 +8,17 @@
 # Usage:
 # $ git clone https://github.com/dtrip/rtl8812au.git
 # $ cd rtl8812au
-# $ patch -p1 -i /path/to/rtl8812au-rpi.patch
+# $ patch -p1 -i rtl8812au-rpi.patch
 #
+# Special thanks to:
+# pravinbravi <http://ubuntuforums.org/member.php?u=538656>
+# http://ubuntuforums.org/showthread.php?t=2275709
+#
+# License:
+# GPLv2
+# <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>
+#
+
 diff --git a/Makefile b/Makefile
 index b79a7d8..013edd6 100644
 --- a/Makefile
