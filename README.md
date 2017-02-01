@@ -23,6 +23,13 @@ CONFIG_PLATFORM_I386_PC = n
 CONFIG_PLATFORM_ARM_RPI = y
 ```
 
+If compiling on raspi and you get an error while compiling:
+```
+cd /usr/src/linux
+make scripts
+```
+Then try building again.
+
 There are many other platforms supported and some other advanced options, e.g. PCI instead of USB, but most won't be needed.
 
 The driver is built by running `make`, and can be tested by loading the
