@@ -1,3 +1,6 @@
+## Changes
+2019-07-11: Updated to compile against kernel 5.2
+
 ## Realtek 802.11ac (rtl8812au)
 
 This is a fork of the Realtek 802.11ac (rtl8812au) v4.2.2 (7502.20130507)
@@ -62,23 +65,27 @@ Automatically rebuilds and installs on kernel updates. DKMS is in official sourc
 $ sudo apt-get install build-essential dkms 
 ```
 
-The driver source must be copied to /usr/src/8812au-4.2.2
+The driver source must be copied to /usr/src/8812au-4.2.3
 
 Then add it to DKMS:
 
 ```sh
-$ sudo dkms add -m 8812au -v 4.2.2
-$ sudo dkms build -m 8812au -v 4.2.2
-$ sudo dkms install -m 8812au -v 4.2.2
+$ sudo dkms add -m 8812au -v 4.2.3
+$ sudo dkms build -m 8812au -v 4.2.3
+$ sudo dkms install -m 8812au -v 4.2.3
 ```
 
 Check with:
 ```sh
 $ sudo dkms status
 ```
+Automatically load at boot:
+```sh
+$ echo 8812au | sudo tee -a /etc/modules
+```
 Eventually remove from DKMS with:
 ```sh
-$ sudo dkms remove -m 8812au -v 4.2.2 --all
+$ sudo dkms remove -m 8812au -v 4.2.3 --all
 ```
 
 ### References

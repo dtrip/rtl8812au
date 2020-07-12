@@ -14,8 +14,12 @@ EXTRA_CFLAGS += -Wno-unused-parameter
 EXTRA_CFLAGS += -Wno-unused-function
 EXTRA_CFLAGS += -Wno-unused
 
+EXTRA_CFLAGS += -Wno-incompatible-pointer-types
+EXTRA_CFLAGS += -Wno-implicit-function-declaration
+
 EXTRA_CFLAGS += -Wno-uninitialized
 EXTRA_CFLAGS += -Wno-int-to-pointer-cast
+EXTRA_CFLAGS += -Wno-vla
 
 EXTRA_CFLAGS += -I$(src)/include
 
@@ -84,6 +88,7 @@ CONFIG_PLATFORM_ARM_SUNxI = n
 CONFIG_PLATFORM_ARM_SUN6I = n
 CONFIG_PLATFORM_ACTIONS_ATM702X = n
 CONFIG_PLATFORM_ACTIONS_ATV5201 = n
+CONFIG_PLATFORM_PPC = n
 
 CONFIG_DRVEXT_MODULE = n
 
@@ -653,7 +658,7 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/i386/)
 ARCH ?= $(SUBARCH)
 CROSS_COMPILE ?=
 KVER ?= $(shell uname -r)
-KSRC := /lib/modules/$(KVER)/build
+KSRC ?= /lib/modules/$(KVER)/build
 MODDESTDIR := /lib/modules/$(KVER)/kernel/drivers/net/wireless/
 INSTALL_PREFIX :=
 endif
@@ -665,15 +670,15 @@ ARCH := $(R_ARCH)
 #CROSS_COMPILE := arm-none-linux-gnueabi-
 CROSS_COMPILE := $(R_CROSS_COMPILE)
 KVER := 3.4.0
-#KSRC := ../../../../build/out/kernel
-KSRC := $(KERNEL_BUILD_PATH)
+#KSRC ?= ../../../../build/out/kernel
+KSRC ?= $(KERNEL_BUILD_PATH)
 MODULE_NAME :=wlan
 endif
 
 ifeq ($(CONFIG_PLATFORM_TI_AM3517), y)
 EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN -DCONFIG_PLATFORM_ANDROID -DCONFIG_PLATFORM_SHUTTLE
 CROSS_COMPILE := arm-eabi-
-KSRC := $(shell pwd)/../../../Android/kernel
+KSRC ?= $(shell pwd)/../../../Android/kernel
 ARCH := arm
 endif
 
@@ -682,7 +687,7 @@ EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN -DCONFIG_PLATFORM_MSTAR_TITANIA12
 ARCH:=mips
 CROSS_COMPILE:= /usr/src/Mstar_kernel/mips-4.3/bin/mips-linux-gnu-
 KVER := 2.6.28.9
-KSRC := /usr/src/Mstar_kernel/2.6.28.9/
+KSRC ?= /usr/src/Mstar_kernel/2.6.28.9/
 endif
 
 ifeq ($(CONFIG_PLATFORM_ANDROID_X86), y)
@@ -690,7 +695,7 @@ EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
 SUBARCH := $(shell uname -m | sed -e s/i.86/i386/)
 ARCH := $(SUBARCH)
 CROSS_COMPILE := /media/DATA-2/android-x86/ics-x86_20120130/prebuilt/linux-x86/toolchain/i686-unknown-linux-gnu-4.2.1/bin/i686-unknown-linux-gnu-
-KSRC := /media/DATA-2/android-x86/ics-x86_20120130/out/target/product/generic_x86/obj/kernel
+KSRC ?= /media/DATA-2/android-x86/ics-x86_20120130/out/target/product/generic_x86/obj/kernel
 MODULE_NAME :=wlan
 endif
 
@@ -702,7 +707,7 @@ EXTRA_CFLAGS += -DCONFIG_P2P_IPS
 SUBARCH := $(shell uname -m | sed -e s/i.86/i386/)
 ARCH := $(SUBARCH)
 CROSS_COMPILE := /home/android_sdk/android-x86_JB/prebuilts/gcc/linux-x86/x86/i686-linux-android-4.7/bin/i686-linux-android-
-KSRC := /home/android_sdk/android-x86_JB/out/target/product/x86/obj/kernel/
+KSRC ?= /home/android_sdk/android-x86_JB/out/target/product/x86/obj/kernel/
 MODULE_NAME :=wlan
 endif
 
@@ -719,7 +724,7 @@ EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
 ARCH := arm
 CROSS_COMPILE := arm-linux-
 KVER := 2.6.24.7_$(ARCH)
-KSRC := /usr/src/kernels/linux-$(KVER)
+KSRC ?= /usr/src/kernels/linux-$(KVER)
 endif
 
 ifeq ($(CONFIG_PLATFORM_ARM_S3C6K4), y)
@@ -775,7 +780,7 @@ ifeq ($(CONFIG_PLATFORM_MIPS_AR9132), y)
 EXTRA_CFLAGS += -DCONFIG_BIG_ENDIAN
 ARCH := mips
 CROSS_COMPILE := mips-openwrt-linux-
-KSRC := /home/alex/test_openwrt/tmp/linux-2.6.30.9
+KSRC ?= /home/alex/test_openwrt/tmp/linux-2.6.30.9
 endif
 
 ifeq ($(CONFIG_PLATFORM_DMP_PHILIPS), y)
@@ -824,7 +829,7 @@ EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN -DCONFIG_PLATFORM_ACTIONS_ATJ227X
 ARCH := mips
 CROSS_COMPILE := /home/cnsd4/project/actions/tools-2.6.27/bin/mipsel-linux-gnu-
 KVER := 2.6.27
-KSRC := /home/cnsd4/project/actions/linux-2.6.27.28
+KSRC ?= /home/cnsd4/project/actions/linux-2.6.27.28
 endif
 
 ifeq ($(CONFIG_PLATFORM_TI_DM365), y)
@@ -832,7 +837,7 @@ EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN -DCONFIG_PLATFORM_TI_DM365
 ARCH := arm
 CROSS_COMPILE := /home/cnsd4/Appro/mv_pro_5.0/montavista/pro/devkit/arm/v5t_le/bin/arm_v5t_le-
 KVER := 2.6.18
-KSRC := /home/cnsd4/Appro/mv_pro_5.0/montavista/pro/devkit/lsp/ti-davinci/linux-dm365
+KSRC ?= /home/cnsd4/Appro/mv_pro_5.0/montavista/pro/devkit/lsp/ti-davinci/linux-dm365
 endif
 
 ifeq ($(CONFIG_PLATFORM_TEGRA3_CARDHU), y)
@@ -844,7 +849,7 @@ EXTRA_CFLAGS += -DCONFIG_IOCTL_CFG80211 -DRTW_USE_CFG80211_STA_EVENT
 EXTRA_CFLAGS += -DCONFIG_P2P_IPS
 ARCH := arm
 CROSS_COMPILE := /home/android_sdk/nvidia/tegra-16r3-partner-android-4.1_20120723/prebuilt/linux-x86/toolchain/arm-eabi-4.4.3/bin/arm-eabi-
-KSRC := /home/android_sdk/nvidia/tegra-16r3-partner-android-4.1_20120723/out/target/product/cardhu/obj/KERNEL
+KSRC ?= /home/android_sdk/nvidia/tegra-16r3-partner-android-4.1_20120723/out/target/product/cardhu/obj/KERNEL
 MODULE_NAME := wlan
 endif
 
@@ -857,7 +862,7 @@ EXTRA_CFLAGS += -DCONFIG_IOCTL_CFG80211 -DRTW_USE_CFG80211_STA_EVENT
 EXTRA_CFLAGS += -DCONFIG_P2P_IPS
 ARCH := arm
 CROSS_COMPILE := /home/android_sdk/nvidia/tegra-17r9-partner-android-4.2-dalmore_20130131/prebuilts/gcc/linux-x86/arm/arm-eabi-4.6/bin/arm-eabi-
-KSRC := /home/android_sdk/nvidia/tegra-17r9-partner-android-4.2-dalmore_20130131/out/target/product/dalmore/obj/KERNEL
+KSRC ?= /home/android_sdk/nvidia/tegra-17r9-partner-android-4.2-dalmore_20130131/out/target/product/dalmore/obj/KERNEL
 MODULE_NAME := wlan
 endif
 
@@ -865,7 +870,7 @@ ifeq ($(CONFIG_PLATFORM_ARM_TCC8900), y)
 EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
 ARCH := arm
 CROSS_COMPILE := /home/android_sdk/Telechips/SDK_2304_20110613/prebuilt/linux-x86/toolchain/arm-eabi-4.4.3/bin/arm-eabi-
-KSRC := /home/android_sdk/Telechips/SDK_2304_20110613/kernel
+KSRC ?= /home/android_sdk/Telechips/SDK_2304_20110613/kernel
 MODULE_NAME := wlan
 endif
 
@@ -873,7 +878,7 @@ ifeq ($(CONFIG_PLATFORM_ARM_TCC8920), y)
 EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
 ARCH := arm
 CROSS_COMPILE := /home/android_sdk/Telechips/v12.06_r1-tcc-android-4.0.4/prebuilt/linux-x86/toolchain/arm-eabi-4.4.3/bin/arm-eabi-
-KSRC := /home/android_sdk/Telechips/v12.06_r1-tcc-android-4.0.4/kernel
+KSRC ?= /home/android_sdk/Telechips/v12.06_r1-tcc-android-4.0.4/kernel
 MODULE_NAME := wlan
 endif
 
@@ -885,7 +890,7 @@ EXTRA_CFLAGS += -DCONFIG_IOCTL_CFG80211 -DRTW_USE_CFG80211_STA_EVENT
 EXTRA_CFLAGS += -DCONFIG_P2P_IPS
 ARCH := arm
 CROSS_COMPILE := /home/android_sdk/Telechips/v13.03_r1-tcc-android-4.2.2_ds_patched/prebuilts/gcc/linux-x86/arm/arm-eabi-4.6/bin/arm-eabi-
-KSRC := /home/android_sdk/Telechips/v13.03_r1-tcc-android-4.2.2_ds_patched/kernel
+KSRC ?= /home/android_sdk/Telechips/v13.03_r1-tcc-android-4.2.2_ds_patched/kernel
 MODULE_NAME := wlan
 endif
 
@@ -893,7 +898,7 @@ ifeq ($(CONFIG_PLATFORM_ARM_RK2818), y)
 EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN -DCONFIG_PLATFORM_ANDROID -DCONFIG_PLATFORM_ROCKCHIPS -DCONFIG_MINIMAL_MEMORY_USAGE
 ARCH := arm
 CROSS_COMPILE := /usr/src/release_fae_version/toolchain/arm-eabi-4.4.0/bin/arm-eabi-
-KSRC := /usr/src/release_fae_version/kernel25_A7_281x
+KSRC ?= /usr/src/release_fae_version/kernel25_A7_281x
 MODULE_NAME := wlan
 endif
 
@@ -901,7 +906,7 @@ ifeq ($(CONFIG_PLATFORM_ARM_URBETTER), y)
 EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN #-DCONFIG_MINIMAL_MEMORY_USAGE
 ARCH := arm
 CROSS_COMPILE := /media/DATA-1/urbetter/arm-2009q3/bin/arm-none-linux-gnueabi-
-KSRC := /media/DATA-1/urbetter/ics-urbetter/kernel
+KSRC ?= /media/DATA-1/urbetter/ics-urbetter/kernel
 MODULE_NAME := wlan
 endif
 
@@ -909,9 +914,9 @@ ifeq ($(CONFIG_PLATFORM_ARM_TI_PANDA), y)
 EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN #-DCONFIG_MINIMAL_MEMORY_USAGE
 ARCH := arm
 #CROSS_COMPILE := /media/DATA-1/aosp/ics-aosp_20111227/prebuilt/linux-x86/toolchain/arm-eabi-4.4.3/bin/arm-eabi-
-#KSRC := /media/DATA-1/aosp/android-omap-panda-3.0_20120104
+#KSRC ?= /media/DATA-1/aosp/android-omap-panda-3.0_20120104
 CROSS_COMPILE := /media/DATA-1/android-4.0/prebuilt/linux-x86/toolchain/arm-eabi-4.4.3/bin/arm-eabi-
-KSRC := /media/DATA-1/android-4.0/panda_kernel/omap
+KSRC ?= /media/DATA-1/android-4.0/panda_kernel/omap
 MODULE_NAME := wlan
 endif
 
@@ -936,7 +941,7 @@ EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN -DCONFIG_PLATFORM_MN10300
 ARCH := mn10300
 CROSS_COMPILE := mn10300-linux-
 KVER := 2.6.32.2
-KSRC := /home/winuser/work/Plat_sLD2T_V3010/usr/src/linux-2.6.32.2
+KSRC ?= /home/winuser/work/Plat_sLD2T_V3010/usr/src/linux-2.6.32.2
 INSTALL_PREFIX :=
 endif
 
@@ -969,6 +974,17 @@ ARCH := mips
 CROSS_COMPILE := mipsel-linux-gnu-
 KVER := $(KERNEL_VER)
 KSRC:= $(CFGDIR)/../../kernel/linux-$(KERNEL_VER)
+endif
+
+ifeq ($(CONFIG_PLATFORM_PPC), y)
+EXTRA_CFLAGS += -DCONFIG_BIG_ENDIAN
+SUBARCH := $(shell uname -m | sed -e s/ppc/powerpc/)
+ARCH ?= $(SUBARCH)
+CROSS_COMPILE ?=
+KVER ?= $(shell uname -r)
+KSRC ?= /lib/modules/$(KVER)/build
+MODDESTDIR := /lib/modules/$(KVER)/kernel/drivers/net/wireless/
+INSTALL_PREFIX :=
 endif
 
 
